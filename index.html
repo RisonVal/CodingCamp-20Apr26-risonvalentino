@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Life Dashboard</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Theme Toggle -->
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+
+  <div class="dashboard">
+
+    <!-- Greeting Card -->
+    <div class="card greeting-card">
+      <div class="time" id="clock">00:00:00</div>
+      <div class="date" id="dateDisplay"></div>
+      <div class="greeting" id="greeting"></div>
+    </div>
+
+    <!-- Middle Row -->
+    <div class="middle-row">
+
+      <!-- Focus Timer Card -->
+      <div class="card timer-card">
+        <h2 class="card-title">Focus Timer</h2>
+        <div class="timer-display" id="timerDisplay">25:00</div>
+        <audio src="alarm_clock.mp3" id="timerSound"></audio>
+        <div class="timer-controls">
+          <button class="btn btn-primary" id="startBtn">Start</button>
+          <button class="btn btn-secondary" id="stopBtn">Stop</button>
+          <button class="btn btn-ghost" id="resetBtn">Reset</button>
+        </div>
+        <div class="timer-settings">
+          <label for="pomoDuration">Pomodoro (min):</label>
+          <input type="number" id="pomoDuration" min="1" max="120" value="25" />
+          <button class="btn btn-small btn-primary" id="applyDuration">Apply</button>
+        </div>
+      </div>
+
+      <!-- To-Do List Card -->
+      <div class="card todo-card">
+        <div class="todo-header">
+          <h2 class="card-title">Tasks</h2>
+        </div>
+        <div class="todo-input-row">
+          <input type="text" id="taskInput" placeholder="Add a new task..." />
+          <button class="btn btn-primary" id="addTaskBtn">Add</button>
+        </div>
+        <ul class="task-list" id="taskList"></ul>
+      </div>
+
+    </div>
+
+    <!-- Quick Links Card -->
+    <div class="card links-card">
+      <h2 class="card-title">Quick Links</h2>
+      <div class="links-input-row">
+        <input type="text" id="linkName" placeholder="Link name" />
+        <input type="url" id="linkUrl" placeholder="https://..." />
+        <button class="btn btn-primary" id="addLinkBtn">Add Link</button>
+      </div>
+      <div class="links-list" id="linksList"></div>
+    </div>
+
+  </div>
+
+  <!-- Edit Task Modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <h3>Edit Task</h3>
+      <input type="text" id="editTaskInput" placeholder="Task name" />
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="saveEditBtn">Save</button>
+        <button class="btn btn-ghost" id="cancelEditBtn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
