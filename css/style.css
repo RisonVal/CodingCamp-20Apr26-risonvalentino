@@ -176,6 +176,10 @@ body {
   margin-bottom: 20px;
 }
 
+.timer-controls li {
+  display: contents;
+}
+
 .timer-settings {
   display: flex;
   align-items: center;
@@ -195,11 +199,6 @@ body {
   color: var(--text-primary);
   font-size: 0.85rem;
   text-align: center;
-}
-
-.timer-settings input[type="number"]:focus {
-  outline: none;
-  border-color: var(--accent);
 }
 
 /* ===== To-Do Card ===== */
@@ -410,7 +409,8 @@ body {
 
 /* ===== Inputs (shared) ===== */
 input[type="text"],
-input[type="url"] {
+input[type="url"],
+input[type="number"] {
   padding: 10px 14px;
   border: 1px solid var(--border);
   border-radius: 10px;
@@ -423,7 +423,8 @@ input[type="url"] {
 }
 
 input[type="text"]:focus,
-input[type="url"]:focus {
+input[type="url"]:focus,
+input[type="number"]:focus {
   border-color: var(--accent);
 }
 
@@ -508,48 +509,77 @@ input::placeholder {
   font-size: 0.8rem;
 }
 
-/* ===== Modal ===== */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: var(--modal-overlay);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 200;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
+/* ===== <menu> reset (used for button groups) ===== */
+menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.modal-overlay.active {
-  opacity: 1;
-  pointer-events: all;
+/* ===== <fieldset> reset ===== */
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
 }
 
-.modal {
-  background: var(--card-bg);
+/* ===== Visually hidden (for <legend> etc.) ===== */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ===== <dialog> modal ===== */
+dialog.modal {
+  border: none;
   border-radius: 16px;
   padding: 28px 32px;
   width: 100%;
   max-width: 400px;
+  /* Center in viewport */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  margin: 0;
+  background: var(--card-bg);
+  color: var(--text-primary);
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
-  transform: translateY(-10px);
-  transition: transform 0.2s ease;
+  /* Animate in */
+  opacity: 0;
+  transition: opacity 0.2s ease, display 0.2s allow-discrete;
 }
 
-.modal-overlay.active .modal {
-  transform: translateY(0);
+dialog.modal[open] {
+  opacity: 1;
 }
 
-.modal h3 {
+@starting-style {
+  dialog.modal[open] {
+    opacity: 0;
+  }
+}
+
+dialog.modal::backdrop {
+  background: var(--modal-overlay);
+  transition: background 0.2s ease;
+}
+
+dialog.modal h3 {
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--text-primary);
   margin-bottom: 16px;
 }
 
-.modal input {
+dialog.modal input {
   margin-bottom: 16px;
 }
 
@@ -557,6 +587,10 @@ input::placeholder {
   display: flex;
   gap: 10px;
   justify-content: flex-end;
+}
+
+.modal-actions li {
+  display: contents;
 }
 
 /* ===== Responsive ===== */

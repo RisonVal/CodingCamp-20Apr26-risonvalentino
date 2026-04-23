@@ -154,10 +154,10 @@ document.addEventListener('click', () => {
 }, { once: true });
 
 // ── To-Do List ────────────────────────────────────────────────
+const taskForm = $('taskForm');
 const taskInput = $('taskInput');
-const addTaskBtn = $('addTaskBtn');
 const taskList = $('taskList');
-const modalOverlay = $('modalOverlay');
+const editDialog = $('editDialog');
 const editTaskInput = $('editTaskInput');
 const saveEditBtn = $('saveEditBtn');
 const cancelEditBtn = $('cancelEditBtn');
@@ -305,12 +305,12 @@ function openEditModal(id) {
   if (!task) return;
   editingTaskId = id;
   editTaskInput.value = task.text;
-  modalOverlay.classList.add('active');
+  editDialog.showModal();
   editTaskInput.focus();
 }
 
 function closeEditModal() {
-  modalOverlay.classList.remove('active');
+  editDialog.close();
   editingTaskId = null;
   editTaskInput.value = '';
 }
@@ -324,19 +324,19 @@ function saveEdit() {
   renderTasks();
 }
 
-addTaskBtn.addEventListener('click', addTask);
-taskInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') addTask(); });
+taskForm.addEventListener('submit', (e) => { e.preventDefault(); addTask(); });
 saveEditBtn.addEventListener('click', saveEdit);
 cancelEditBtn.addEventListener('click', closeEditModal);
 editTaskInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') saveEdit(); });
-modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeEditModal(); });
+// Close on backdrop click
+editDialog.addEventListener('click', (e) => { if (e.target === editDialog) closeEditModal(); });
 
 renderTasks();
 
 // ── Quick Links ───────────────────────────────────────────────
+const linkForm = $('linkForm');
 const linkNameInput = $('linkName');
 const linkUrlInput = $('linkUrl');
-const addLinkBtn = $('addLinkBtn');
 const linksList = $('linksList');
 
 let links = loadFromStorage('dashboard_links', [
@@ -354,7 +354,7 @@ function renderLinks() {
   }
 
   links.forEach((link) => {
-    const wrapper = document.createElement('div');
+    const wrapper = document.createElement('span');
     wrapper.className = 'link-btn-wrapper';
 
     const a = document.createElement('a');
@@ -365,6 +365,7 @@ function renderLinks() {
     a.textContent = link.name;
 
     const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
     removeBtn.className = 'link-remove';
     removeBtn.textContent = '×';
     removeBtn.setAttribute('aria-label', `Remove link "${link.name}"`);
@@ -407,8 +408,7 @@ function removeLink(id) {
   renderLinks();
 }
 
-addLinkBtn.addEventListener('click', addLink);
-linkUrlInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') addLink(); });
-linkNameInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') linkUrlInput.focus(); });
+linkForm.addEventListener('submit', (e) => { e.preventDefault(); addLink(); });
+linkNameInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); linkUrlInput.focus(); } });
 
 renderLinks();
